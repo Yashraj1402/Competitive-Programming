@@ -1,15 +1,3 @@
-/*
-Considering y > x
--> if x == y then N = x 
--> if y%x == 0 then y - x
--> we need to satisy (N+x)%y == 0 and (N+y)%x == 0 where y%x != 0.
-So, we need to eliminate x from (N+x)%y and y from (N+y)%x
-Observation 1: N should be of the form K - y - x
-Observation 2: If N = K - y - x, (N+y)%x = (K - y - x + y)%x = (K - x)%x and (N+x)%y = (K - y)
-Observation 3: K should be divisible by both y and x
-
-Conclusion: The most obvious number that is divisible by x and y both is xy hence K = xy and N = xy - y - x => N = (x - 1)y - x
-*/
 #include<bits/stdc++.h>
 using namespace std;
 #define all(x) x.begin(),x.end()
