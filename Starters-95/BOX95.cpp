@@ -31,7 +31,31 @@ ll getRandomNumber(ll l, ll r){return uniform_int_distribution<ll>(l, r)(rng);}
 /*-----------------------------------------------------------------------------------*/
 void solve()
 {
-    
+    int n;
+    cin >> n;
+    vector<ll> a(n);
+    int max_bit = 0;
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+
+        int bit = 0;
+        for(int j = 63; j >= 0; j--){
+            if(((1LL << j)&a[i]) > 0){
+                bit = j;
+                break;
+            }
+        }
+        max_bit = max(max_bit, bit);
+    }
+
+    int cnt{0};
+    for(int i = 0; i < n; i++){
+        if(((1LL << max_bit)&a[i]) > 0){
+            cnt++;
+        }
+    }
+
+    cout << (cnt/2)+(cnt%2) << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);
