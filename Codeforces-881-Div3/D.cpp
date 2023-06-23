@@ -29,9 +29,59 @@ ll C(ll n, ll k, ll mod) {return fact(n,mod) * expo(fact(k,mod), mod - 2,mod)%mo
 vector<ll> sieve(int n) {int* arr = new int[n + 1]();vector<ll> vect;for (int i = 2; i <= n; i++) {if (arr[i] == 0) {vect.push_back(i);for (int j = 2 * i; j <= n; j += i) {arr[j] = 1;}}}return vect;}
 ll getRandomNumber(ll l, ll r){return uniform_int_distribution<ll>(l, r)(rng);}
 /*-----------------------------------------------------------------------------------*/
+vector<int> dp;
+vector<bool> visited;
+vector<int> parent;
+int dfs(vector<vector<int>>& adj, int& node){
+    if(visited[node]){
+        return dp[node];
+    }
+    visited[node] = true;
+
+    if(adj[node].size() == 1 && adj[node][0] == parent[node]){
+        dp[node] = 1;
+        return dp[node];
+    }
+
+    for(auto u: adj[node]){
+        if(u == parent[node]) continue;
+        parent[u] = node;
+        dp[node] += dfs(adj,u);
+    }
+
+    return dp[node];
+}
 void solve()
 {
-    
+    int n;
+    cin >> n;
+    vector<vector<int>> adj(n+1);
+    int x,y;
+    for(int i = 0; i < n-1; i++){
+        cin >> x >> y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+
+    int q;
+    cin >> q;
+    vector<pair<int,int>> v(q);
+    for(int i = 0; i < q; i++){
+        cin >> v[i].first >> v[i].second;
+    }
+
+    dp.assign(n+1, 0);
+    visited.assign(n+1, false);
+    parent.assign(n+1, -1);
+
+    int node = 1;
+    dfs(adj,node);
+
+    for(int i = 0; i < q; i++){
+        ll x = v[i].first, y = v[i].second;
+        ll ans = (ll)dp[x] * (ll)dp[y];
+        cout << ans << '\n';
+    }
 }
 int main() {
     ios_base::sync_with_stdio(false);
